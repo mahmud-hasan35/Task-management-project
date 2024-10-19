@@ -1,7 +1,7 @@
 
 function Footer() {
   return (
-    <p className="py-5 text-center">&copy; Mahmud Hasan All Right Reservd.</p>
+    <p className="py-5 text-center dark:text-gray-400">&copy; Mahmud Hasan All Right Reservd.</p>
   )
 }
 
