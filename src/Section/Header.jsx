@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Container from "../component/Container";
-import logo from "../images/logo.png";
+import logo from "../Images/logo.png";
 import { MdLightMode } from "react-icons/md";
 // import { MdDarkMode } from "react-icons/md";
 
