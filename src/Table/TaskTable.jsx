@@ -12,9 +12,7 @@ function TaskTable() {
     return (
         <Container className="mt-10">
             <div className="flex justify-end">
-                <Button onClick={() => setModal(true)} className="mr-4" color="success">
-                    Add Task
-                </Button>
+                <Button onClick={() => setModal(true)} className="mr-4" color="success">Add Task</Button>
                 <Button color="warning">Clear Tasks</Button>
             </div>
             <div className="p-2 border rounded my-6 dark:border-slate-900">

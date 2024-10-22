@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Container from "../component/Container";
 import logo from "../Images/logo.png";
 import { MdLightMode } from "react-icons/md";
-// import { MdDarkMode } from "react-icons/md";
+import { MdDarkMode } from "react-icons/md";
 
 function Header() {
     let [theme, setTheme] = useState("");
