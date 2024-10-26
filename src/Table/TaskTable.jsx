@@ -1,27 +1,76 @@
 import { Button } from "flowbite-react";
 import Container from "../component/Container";
 import { TextInput } from "flowbite-react";
-import { IoSearchOutline } from "react-icons/io5";
+
 import { Table } from "flowbite-react";
 import { ModalPopUp } from "../component/ModalPopUp";
 import { useState } from "react";
+import TableItems from "./TableItems";
+import TableHeader from "./TableHeader";
+
+ function DataFound() { 
+    return (
+    <Table.Row>
+        <Table.Cell colSpan={6} className="text-center text-xl">No Data Found</Table.Cell>
+    </Table.Row> 
+    )
+}
+
 
 function TaskTable() {
     let [modal, setModal] = useState(false);
+
+    let [task,setTask] = useState([]);
+
+    let [search,setSearch] =useState('')
+
+    let onCreateHandler = (item) => {
+        let apdateData = [
+            ...task,
+            item
+        ];
+        
+        setTask(apdateData.reverse()) 
+    }
+
+    let editHandler = (items) => {
+
+        setTask(task.map(item => {
+            if (items.id === item.id) {
+                return items;
+            } else {
+                return item;
+            }
+        }));
+        
+    }
+
+    let deleteHandler = (id) => {
+        setTask(task.filter(item => {
+          return   item.id != id;
+        }))
+        
+    }
+    let searchHandler= (text) => {
+        setSearch(text);
+        
+    }
+    let updateTask = task.filter(item => {
+        return item.title.toLowerCase(). includes (search.toLowerCase())
+    })
+
+
 
     return (
         <Container className="mt-10">
             <div className="flex justify-end">
                 <Button onClick={() => setModal(true)} className="mr-4" color="success">Add Task</Button>
-                <Button color="warning">Clear Tasks</Button>
+                <Button onClick={() => setTask([])}   color="warning">Clear Tasks</Button>
             </div>
             <div className="p-2 border rounded my-6 dark:border-slate-900">
-                <div className="flex justify-between items-center mt-5 mb-8">
-                    <h2 className="text-2xl font-bold text-rose-700 cursor-pointer ml-2 dark:text-yellow-500">Your Task</h2>
-                    <div className="max-w-md">
-                        <TextInput id="email4" type="email" rightIcon={IoSearchOutline} required />
-                    </div>
-                </div>
+
+               <TableHeader onSearch={searchHandler}/>
+               
                 <div className="overflow-x-auto">
                     <Table hoverable>
                         <Table.Head>
@@ -33,26 +82,13 @@ function TaskTable() {
                             <Table.HeadCell className="text-base">Action </Table.HeadCell>
                         </Table.Head>
                         <Table.Body className="divide-y">
-                            <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800 w-100">
-                                <Table.Cell className="font-semibold">1</Table.Cell>
-                                <Table.Cell className="font-semibold">Api Building</Table.Cell>
-                                <Table.Cell className="font-semibold">Create an API by using laravel platform</Table.Cell>
-                                <Table.Cell className="font-semibold">Mahmud Hasan</Table.Cell>
-                                <Table.Cell className="font-semibold">Height</Table.Cell>
-                                <Table.Cell className="font-semibold text-base ">
-                                    <a href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 dark:text-lime-600 ">
-                                        Edit
-                                    </a>
-                                    <a href="#" className="font-medium text-red-600 hover:underline dark:text-cyan-500 ml-6 dark:text-rose-500">
-                                        Delete
-                                    </a>
-                                </Table.Cell>
-                            </Table.Row>
+                            {task.length == 0 ? <DataFound/> : updateTask.map((item,index) => <TableItems onEdit={editHandler} onDelete = {deleteHandler} data={item} index={index} key={item}/>)}
+                          
                         </Table.Body>
                     </Table>
                 </div>
             </div>
-            <ModalPopUp onOpen={modal} onClose={() => setModal(false)} />
+            <ModalPopUp onCreate= {onCreateHandler}  onOpen={modal} onClose={() => setModal(false)} />
         </Container>
     );
 }
